@@ -12,5 +12,19 @@ services:
       - MONGO_INITDB_DATABASE=toothaid
     restart: unless-stopped
 
+  backend:
+    build: ./server
+    container_name: toothaid-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGODB_URI=mongodb://mongodb:27017/toothaid
+      - JWT_SECRET=toothaid-dev-secret-change-in-production
+      - NODE_ENV=development
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
 volumes:
   mongodb_data:
